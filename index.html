@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Rock-Paper-Scissors</title>
-    <script type="text/javascript" src="game.js"></script>
+    <script src="game.js" defer></script>
 </head>
 <body>
-    <script>
-        game();
-    </script>
+    <div class="player-selection">
+        <button id="btn-rock">Play Rock</button>
+        <button id="btn-paper">Play Paper</button>
+        <button id="btn-scissors">Play Scissors</button>
+    </div>
+
+    <!-- text is changed with js -->
+    <div class="round-results">
+    </div>
+    <div class="game-result">
+    </div>
 </body>
 </html>

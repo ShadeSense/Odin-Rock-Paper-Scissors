@@ -16,7 +16,8 @@ function playerSelection(){
             valid = true;
         }
     }
-    return((valid==true) ? pos : console.log("Invalid selection"));
+    const result = document.querySelector('.round-results');
+    return((valid==true) ? pos : result.textContent = "Invalid selection");
 }
 
 /* Plays a round of rock, paper, scissors */
@@ -53,41 +54,67 @@ function playRound(player, computer){
     }
 
     if(winner == computer){
-        console.log("You lost: " + computer + " beats " + player + "!");
-        return "computer";
+        compTotal += 1;
+        const result = document.querySelector('.round-results');
+        result.textContent = "You lost: " + computer + " beats " + player + "!";
     }
     else{
-        console.log("You won: " + player + " beats " + computer + "!");
-        return "player";
+        playTotal += 1;
+        const result = document.querySelector('.round-results');
+        result.textContent = "You won: " + player + " beats " + computer + "!";
     }
 }
 
-function game(){
-    let compTotal = 0;
-    let playTotal = 0;
-
-    for(let i = 0; i < 5; i++){
-        let computer = computerPlay();
-        let player = playerSelection();
-        let round = playRound(player, computer);
-        
-        if(round == "computer"){
-            compTotal += 1;
+function displayWinner(){
+    round += 1;
+    const display = document.querySelector('.game-result');
+    if(roundCount != 5){
+        display.textContent = "Round " + round + ": Computer: " + compTotal + " | Player: " + playTotal;
+    }
+    else{
+        if(compTotal > playTotal){
+            display.textContent = "Computer won with " + compTotal + " out of 5 rounds!";
         }
-        else if(round == "player"){
-            playTotal += 1;
+        else if(compTotal < playTotal){
+            display.textContent = "Player won with " + playTotal + " out of 5 rounds!";
         }
         else{
-            continue;
+            display.textContent = "Game resulted in a tie with " + compTotal + " out of 5 rounds won on both sides!";
         }
-
-        console.log("Round " + (i + 1) + ": Computer: " + compTotal + " | Player: " + playTotal);
-    }
-
-    if(compTotal > playTotal){
-        console.log("Computer wins!");
-    }
-    else{
-        console.log("Player wins!");
+        roundCount = 0;
+        playTotal = 0;
+        compTotal = 0;
+        round = 0;
     }
 }
+
+/* Keeps track of total rounds and winners*/
+let roundCount = 0;
+let playTotal = 0;
+let compTotal = 0;
+let round = 0;
+
+const btnRock = document.querySelector('#btn-rock');
+const btnPaper = document.querySelector('#btn-paper');
+const btnScissors = document.querySelector('#btn-scissors');
+
+btnRock.addEventListener('click', () => {
+    let computer = computerPlay();
+    playRound("ROCK", computer);
+    roundCount += 1;
+    displayWinner();
+})
+
+btnPaper.addEventListener('click', () => {
+    let computer = computerPlay();
+    playRound("PAPER", computer);
+    roundCount += 1;
+    displayWinner();
+})
+
+btnScissors.addEventListener('click', () => {
+    let computer = computerPlay();
+    playRound("SCISSORS", computer);
+    roundCount += 1;
+    displayWinner();
+})
